@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |     # the custom arguments file defined in deployment.yaml that needs the data below, every 15 seconds the prometheus will refresh the metrics
+    global:                          
+      scrape_interval: 15s                   
+
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+
+      - job_name: 'flask-app'
+        metrics_path: /metrics   
+        static_configs:
+          - targets: ['34.42.228.136:5000']
+
+  # scrape-configs refresh itself first
+  # refresh the flask-app
+    # metrics is running in app.py  
+    # prometheus is on 9090 port
+    # flask-app running on vm IP and port 
+    #5000 external port ,IP address of virtual machine 34.42.228.136    

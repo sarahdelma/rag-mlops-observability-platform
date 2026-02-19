@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"  #step 3 over-ride the default arguments with the custom arguments. the file prometheus.yaml now has the custom arguments 
+          ports:                                               # taken from the configmap.yaml file
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus  # step 1 creating the volume to hold the custom arguments
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-config   # step 2 inputs received from config file, configmap.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: monitoring
+spec:
+  selector:
+    app: prometheus
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+      nodePort: 32001 
+  type: NodePort
