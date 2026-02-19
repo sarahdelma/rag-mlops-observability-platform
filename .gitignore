@@ -1,4 +1,4 @@
-.env
-*.env
 venv/
 PRODUCT_RECOMMENDER.egg-info
+.env
+*.env
