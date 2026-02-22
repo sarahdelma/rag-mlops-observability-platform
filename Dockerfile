@@ -24,4 +24,6 @@ RUN pip install --no-cache-dir -e .
 EXPOSE 5000
 
 # Run the app 
-CMD ["python", "app.py"]
+#CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]     # Run the app using Gunicorn (Production server)
+#    development level  deployment below
+CMD ["python", "app.py"]         
