@@ -93,12 +93,19 @@ Sensitive credentials are handled via:
 No secrets are stored in version control.
 
 ---
-##  Running the Project
+## Running the Project
 
 ### Run Locally
 
+```bash
+# Install Python dependencies
 pip install -r requirements.txt
+
+# Run the app locally (development)
 python app.py
-docker build -t rag-mlops-observability-platform
-docker run -p 8000:8000 rag-mlops-observability-platform
----
+
+# Build the Docker image
+docker build -t rag-mlops-platform .
+
+# Run the Docker container (exposing port 5000)
+docker run -p 5000:5000 rag-mlops-platform
